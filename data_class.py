@@ -27,13 +27,14 @@ class Status(metaclass=Singleton):
                 self.data["exp"] -= (self.data["level"] ** 2) * 10
                 self.data["level"] += 1
                 print(f"Congratulations, you have reached level {self.data['level']}!")
-    def save(self):
-        with open("status.json", "w") as file:
+    def save(self, filename: str):
+        with open(filename, "w") as file:
             json.dump(self.data, file)
 
-    def load(self):
-        with open("status.json", "r") as file:
+    def load(self, filename: str):
+        with open(filename, "r") as file:
             self.data = json.load(file)
+
 class Location(metaclass=Singleton):
     def __init__(self):
         self.x = 0
