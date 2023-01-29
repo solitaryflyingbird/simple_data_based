@@ -1,4 +1,4 @@
-import json
+
 #Status
 #Location
 #Inventory
@@ -9,6 +9,7 @@ class Singleton(type):
         if cls not in cls._instances:
             cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
         return cls._instances[cls]
+
 class Status(metaclass=Singleton):
     def __init__(self):
         self.data = {
@@ -27,50 +28,40 @@ class Status(metaclass=Singleton):
                 self.data["exp"] -= (self.data["level"] ** 2) * 10
                 self.data["level"] += 1
                 print(f"Congratulations, you have reached level {self.data['level']}!")
-    def save(self, filename: str):
-        with open(filename, "w") as file:
-            json.dump(self.data, file)
-
-    def load(self, filename: str):
-        with open(filename, "r") as file:
-            self.data = json.load(file)
-
+    def save(self):
+        return self.data
+    def load(self, load_data):
+        self.data = load_data
 class Location(metaclass=Singleton):
     def __init__(self):
-        self.x = 0
-        self.y = 0
+        self.data = {
+            "x": 0,
+            "y": 0
+            }
     def save(self):
-        # code to save the location data to a file
-        pass
-    def load(self):
-        # code to load the location data from a file
-        pass
-
+        return self.data
+    def load(self, load_data):
+        self.data = load_data
 class Inventory(metaclass=Singleton):
     def __init__(self):
-        self.items = []
-    def add_item(self, item):
-        self.items.append(item)
-    def remove_item(self, item):
-        self.items.remove(item)
+        self.data = {}
+    def add_data(self, name, value):
+        self.data[name] = value
+    def remove_data(self, name):
+        self.data.pop(name, None)
     def save(self):
-        # code to save the inventory data to a file
-        pass
-    def load(self):
-        # code to load the inventory data from a file
-        pass
-
+        return self.data
+    def load(self, load_data):
+        self.data = load_data
 class QuestProgress(metaclass=Singleton):
     def __init__(self):
-        self.quests = []
-    def add_quest(self, quest):
-        self.quests.append(quest)
-    def remove_quest(self, quest):
-        self.quests.remove(quest)
+        self.data = {}
+    def add_data(self, name, value):
+        self.data[name] = value
+    def remove_data(self, name):
+        self.data.pop(name, None)
     def save(self):
-        # code to save the quest progress data to a file
-        pass
-    def load(self):
-        # code to load the quest progress data from a file
-        pass
+        return self.data
+    def load(self, load_data):
+        self.data = load_data
 
