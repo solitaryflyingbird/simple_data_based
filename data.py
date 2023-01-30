@@ -9,7 +9,7 @@ DATA = {"status" : status, "location" : location, "inventory" : inventory, "ques
 
 def save_data(filename, data = DATA):
     with open(filename, "w") as file:
-        json.dump({key: value.save() for key, value in data.items()}, file)
+        json.dump({key: value.save() for key, value in data.items()}, file, indent = 4)
 
 
 def load_data(filename):
@@ -21,3 +21,4 @@ def load_data(filename):
 
 npc = data_class.NPC("save_npc")
 print(npc.status)
+xxx = save_data("data_example")
