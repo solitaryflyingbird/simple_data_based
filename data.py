@@ -19,5 +19,5 @@ def load_data(filename):
             DATA[key].load(value)
     return DATA
 
-DATA = load_data("ddd")
-print(location.data)
+npc = data_class.NPC("save_npc")
+print(npc.status)

@@ -1,4 +1,4 @@
-
+import json
 #Status
 #Location
 #Inventory
@@ -65,3 +65,32 @@ class QuestProgress(metaclass=Singleton):
     def load(self, load_data):
         self.data = load_data
 
+class NPC:
+    def __init__(self, npc_data_file=None):
+        if npc_data_file:
+            with open(npc_data_file, "r") as file:
+                npc_data = json.load(file)
+                self.name = npc_data["name"]
+                self.portrait = npc_data["portrait"]
+                self.status = npc_data["status"]
+                self.dialogue = npc_data["dialogue"]
+        else:
+            self.name = ""
+            self.portrait = ""
+            self.status = {}
+            self.dialogue = {}
+        
+    def save(self, npc_data_file):
+        with open(npc_data_file, "w") as file:
+            json.dump({
+                "name": self.name,
+                "portrait": self.portrait,
+                "status": self.status,
+                "dialogue": self.dialogue
+            }, file)
+
+x = NPC()
+x.name = "jhon"
+x.status = { "level": 1, "exp": 0, "health": 100, "strength": 10, "dexterity": 10, "intelligence": 10, }
+x.dialogue = { "greeting": "Hello, how are you today?", "farewell": "Goodbye, have a nice day!", "default": "I have nothing to say." } 
+x.save("save_npc")
