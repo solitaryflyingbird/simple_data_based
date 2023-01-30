@@ -1,0 +1,15 @@
+{
+    "name": "jany",
+    "portrait": "",
+    "status": {
+        "health": 90,
+        "strength": 8,
+        "dexterity": 12,
+        "intelligence": 12
+    },
+    "dialogue": {
+        "greeting": "Hello, how are you today?",
+        "farewell": "Goodbye, have a nice day!",
+        "default": "I have nothing to say."
+    }
+}

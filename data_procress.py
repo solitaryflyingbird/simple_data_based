@@ -1,12 +1,17 @@
 import varible_data_class
-import non_varible_data_class
+import npc_class
+
+import os
 import json
+
 status = varible_data_class.Status()
 location = varible_data_class.Location()
 inventory = varible_data_class.Inventory()
 quest_progress = varible_data_class.QuestProgress()
 
 DATA = {"status" : status, "location" : location, "inventory" : inventory, "quest_progress" : quest_progress}
+NPC_DATA  = {}
+ITEM_DATA = {}
 
 def save_data(filename, data = DATA):
     with open(filename, "w") as file:
@@ -20,6 +25,24 @@ def load_data(filename):
             DATA[key].load(value)
     return DATA
 
-npc = non_varible_data_class.NPC("save_npc")
-print(npc.status)
-xxx = save_data("data_example")
+
+def load_npcs(folder_name):
+    for filename in os.listdir(folder_name):
+        with open(os.path.join(folder_name, filename), "r") as file:
+            npc_data = json.load(file)
+            NPC_DATA[npc_data["name"]] = npc_data
+def load_items(folder_name):
+    for filename in os.listdir(folder_name):
+        with open(os.path.join(folder_name, filename), "r") as file:
+            item_data = json.load(file)
+            ITEM_DATA[item_data["name"]] = item_data
+
+load_npcs("NPC")
+load_items("ITEM")
+
+print(NPC_DATA["jany"])
+print(ITEM_DATA["item2"])
+
+
+
+
