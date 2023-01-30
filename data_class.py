@@ -87,10 +87,11 @@ class NPC:
                 "portrait": self.portrait,
                 "status": self.status,
                 "dialogue": self.dialogue
-            }, file)
+            }, file, indent=4)
 
 x = NPC()
 x.name = "jhon"
 x.status = { "level": 1, "exp": 0, "health": 100, "strength": 10, "dexterity": 10, "intelligence": 10, }
 x.dialogue = { "greeting": "Hello, how are you today?", "farewell": "Goodbye, have a nice day!", "default": "I have nothing to say." } 
 x.save("save_npc")
+
