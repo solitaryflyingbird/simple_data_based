@@ -10,6 +10,7 @@ inventory = varible_data_class.Inventory()
 quest_progress = varible_data_class.QuestProgress()
 
 DATA = {"status" : status, "location" : location, "inventory" : inventory, "quest_progress" : quest_progress}
+GOLD = 0
 NPC_DATA  = {}
 ITEM_DATA = {}
 

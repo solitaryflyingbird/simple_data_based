@@ -3,14 +3,9 @@ import json
 #Location
 #Inventory
 #QuestProgress
-class Singleton(type):
-    _instances = {}
-    def __call__(cls, *args, **kwargs):
-        if cls not in cls._instances:
-            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
-        return cls._instances[cls]
 
-class Status(metaclass=Singleton):
+
+class Status():
     def __init__(self):
         self.data = {
             "level": 1,
@@ -32,7 +27,7 @@ class Status(metaclass=Singleton):
         return self.data
     def load(self, load_data):
         self.data = load_data
-class Location(metaclass=Singleton):
+class Location():
     def __init__(self):
         self.data = {
             "x": 0,
@@ -42,7 +37,7 @@ class Location(metaclass=Singleton):
         return self.data
     def load(self, load_data):
         self.data = load_data
-class Inventory(metaclass=Singleton):
+class Inventory():
     def __init__(self):
         self.data = {}
     def add_item(self, item, quantity=1):
@@ -68,7 +63,7 @@ class Inventory(metaclass=Singleton):
     def load(self, load_data):
         self.data = load_data
 
-class QuestProgress(metaclass=Singleton):
+class QuestProgress():
     def __init__(self):
         self.data = {}
     def add_data(self, name, value):
@@ -103,7 +98,9 @@ class NPC:
                 "status": self.status,
                 "dialogue": self.dialogue
             }, file, indent=4)
-
+class GOLD:
+    def __init__(self, gold = 0):
+        self.gold=0
 """
 i = Inventory()
 i.add_item("x",1)
