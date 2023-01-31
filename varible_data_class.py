@@ -63,8 +63,6 @@ class Inventory(metaclass=Singleton):
             self.data[item_name] -= quantity
             if self.data[item_name] <= 0:
                 self.data.pop(item_name)
-    def get_items(self):
-        return self.data.keys()
     def save(self):
         return self.data
     def load(self, load_data):

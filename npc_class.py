@@ -22,6 +22,6 @@ class NPC:
                 "portrait": self.portrait,
                 "status": self.status,
                 "dialogue": self.dialogue
-            }, file,ç)
+            }, file, indent=4)
 
 
