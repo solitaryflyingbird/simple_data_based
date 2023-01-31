@@ -46,27 +46,29 @@ class Inventory(metaclass=Singleton):
     def __init__(self):
         self.data = {}
     def add_item(self, item, quantity=1):
-        if item in self.data:
-            self.data[item] += quantity
+        try:
+            item_name = item["name"]
+        except:
+            item_name = item
+        if item_name in self.data:
+            self.data[item_name] += quantity
         else:
-            self.data[item] = quantity
+            self.data[item_name] = quantity
     def remove_item(self, item, quantity=1):
-        if item in self.data:
-            self.data[item] -= quantity
-            if self.data[item] <= 0:
-                self.data.pop(item)
-    def get_item_count(self, item):
-        if item in self.data:
-            return self.data[item]
-        else:
-            return 0
+        try:
+            item_name = item["name"]
+        except:
+            item_name = item
+        if item_name in self.data:
+            self.data[item_name] -= quantity
+            if self.data[item_name] <= 0:
+                self.data.pop(item_name)
     def get_items(self):
-        return self.data.keys()   
+        return self.data.keys()
     def save(self):
         return self.data
     def load(self, load_data):
         self.data = load_data
-
 
 class QuestProgress(metaclass=Singleton):
     def __init__(self):
@@ -104,3 +106,10 @@ class NPC:
                 "dialogue": self.dialogue
             }, file, indent=4)
 
+"""
+i = Inventory()
+i.add_item("x",1)
+i.add_item({"name" : "x"} , 1)
+
+print(i.data)
+"""

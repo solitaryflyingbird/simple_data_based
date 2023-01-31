@@ -40,9 +40,16 @@ def load_items(folder_name):
 load_npcs("NPC")
 load_items("ITEM")
 
-print(NPC_DATA["jany"])
-print(ITEM_DATA["item2"])
 
+##테스트 코드
+x = ITEM_DATA["item1"]
 
+inventory.add_item(ITEM_DATA["item1"]["name"], 1)
 
+inventory.add_item(ITEM_DATA["item1"], 2)
+
+inventory.remove_item("item1", 1)
+inventory.remove_item(ITEM_DATA["item1"]["name"], 1)
+
+print(DATA["inventory"].data)
 
