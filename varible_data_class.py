@@ -45,14 +45,29 @@ class Location(metaclass=Singleton):
 class Inventory(metaclass=Singleton):
     def __init__(self):
         self.data = {}
-    def add_data(self, name, value):
-        self.data[name] = value
-    def remove_data(self, name):
-        self.data.pop(name, None)
+    def add_item(self, item, quantity=1):
+        if item in self.data:
+            self.data[item] += quantity
+        else:
+            self.data[item] = quantity
+    def remove_item(self, item, quantity=1):
+        if item in self.data:
+            self.data[item] -= quantity
+            if self.data[item] <= 0:
+                self.data.pop(item)
+    def get_item_count(self, item):
+        if item in self.data:
+            return self.data[item]
+        else:
+            return 0
+    def get_items(self):
+        return self.data.keys()   
     def save(self):
         return self.data
     def load(self, load_data):
         self.data = load_data
+
+
 class QuestProgress(metaclass=Singleton):
     def __init__(self):
         self.data = {}
