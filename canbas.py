@@ -1,23 +1,30 @@
-import pygame
+import pygame as pg
 
-pygame.init()
+pg.init()
 
 width = 800
 height = 500
 
-screen = pygame.display.set_mode((width, height))
+screen = pg.display.set_mode((width, height))
 
-clock = pygame.time.Clock()
+clock = pg.time.Clock()
+
+
+down_back = pg.image.load("IMAGE/town_back_dark.png")
+def display_town():
+    screen.blit(down_back, (0,0))
+
+
 
 running = True
 while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+    for event in pg.event.get():
+        if event.type == pg.QUIT:
             running = False
     
-    screen.fill((255, 255, 255))
-    pygame.display.update()
+    display_town()
+    pg.display.update()
     
     clock.tick(60)
 
-pygame.quit()
+pg.quit()
