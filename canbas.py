@@ -10,9 +10,20 @@ screen = pg.display.set_mode((width, height))
 clock = pg.time.Clock()
 
 
-down_back = pg.image.load("IMAGE/town_back_dark.png")
+town_back = pg.image.load("IMAGE/town_back_dark.png")
+wood_board = pg.image.load("IMAGE/wood_board.png")
+
+
+def board_and_write(x, y, string):
+    screen.blit(wood_board, (x,y))
+    font = font = pg.font.Font("font/NanumGothicBold.otf", 20)
+    write = font.render((string), True, (0,0,0))
+    screen.blit(write,(x+20, y+15))
+    return 0
+
 def display_town():
-    screen.blit(down_back, (0,0))
+    screen.blit(town_back, (0,0))
+    board_and_write(100, 0, "레후")
 
 
 
