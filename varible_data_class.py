@@ -101,6 +101,12 @@ class NPC:
 class GOLD:
     def __init__(self, gold = 0):
         self.gold=0
+class DAY:
+    def __init__(self, gold = 0):
+        self.day=1
+class NAME:
+    def __init__(self, gold = 0):
+        self.name="name"
 """
 i = Inventory()
 i.add_item("x",1)
