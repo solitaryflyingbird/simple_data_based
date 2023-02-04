@@ -15,7 +15,7 @@ wood_board = pg.image.load("IMAGE/wood_board.png")
 
 
 class Window:
-    def __init__(self, x=0, y=0, width=None, height=None, buttons=None, text_windows=None, images=None):
+    def __init__(self, x=0, y=0, width=None, height=None, buttons=[], text_windows=[], images=[]):
         self.x = x
         self.y = y
         self.width = width
@@ -24,13 +24,13 @@ class Window:
         self.text_windows = text_windows
         self.images = images
 
-    def blit(self, screen):
+    def blit(self):
         for button in self.buttons:
-            button.blit(screen, self.x, self.y)
+            button.blit()
         for text_window in self.text_windows:
-            text_window.blit(screen, self.x, self.y)
+            text_window.blit()
         for image in self.images:
-            screen.blit(image.image, (image.x + self.x, image.y + self.y))
+            screen.blit()
 
     def handle_click(self, mouse_pos):
         for button in self.buttons:
@@ -63,24 +63,13 @@ b3 = Button(100, 170, "상점에 가다")
 b4 = Button(100, 230, "길드에 가다")
 TOWN_WINDOW = Window()
 TOWN_WINDOW.buttons = [b1,b2,b3,b4]
-def xxx():
-    print(1)
-def display_town_button():   
-    b1 = Button(100, 50, "스테이터스를 보다")
-    b2 = Button(100, 110, "술집에 가다")
-    b3 = Button(100, 170, "상점에 가다")
-    b4 = Button(100, 230, "길드에 가다")
-    return [b1, b2, b3, b4]
-def button_cog(mouse_pos, buttons):
-    for bt in buttons:
-        if bt.wood_board_rect.collidepoint(mouse_pos):
-            return bt
-    return False
+OPEN_WINDOW = None
+
 
 running = True
 while running:
     screen.blit(town_back, (0,0))
-    town_buttons = display_town_button()
+    TOWN_WINDOW.blit()
     for event in pg.event.get():
         mouse_pressed = pg.mouse.get_pressed()[0]
         if mouse_pressed:
