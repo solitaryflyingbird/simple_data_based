@@ -6,9 +6,7 @@ width = 800
 height = 500
 
 screen = pg.display.set_mode((width, height))
-
 clock = pg.time.Clock()
-
 
 town_back = pg.image.load("IMAGE/town_back_dark.png")
 wood_board = pg.image.load("IMAGE/wood_board.png")
@@ -57,10 +55,10 @@ class Button:
 
     def collidepoint(self, point):
         return self.wood_board_rect.collidepoint(point)
-b1 = Button(100, 50, "스테이터스를 보다")
-b2 = Button(100, 110, "술집에 가다")
-b3 = Button(100, 170, "상점에 가다")
-b4 = Button(100, 230, "길드에 가다")
+b1 = Button(20, 50, "스테이터스를 보다")
+b2 = Button(20, 110, "술집에 가다")
+b3 = Button(20, 170, "상점에 가다")
+b4 = Button(20, 230, "길드에 가다")
 TOWN_WINDOW = Window()
 TOWN_WINDOW.buttons = [b1,b2,b3,b4]
 OPEN_WINDOW = None
@@ -84,6 +82,6 @@ while running:
     
     pg.display.update()
     
-    clock.tick(60)
+    clock.tick(20)
 
 pg.quit()
