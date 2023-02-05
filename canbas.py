@@ -23,12 +23,12 @@ class Window:
         self.images = images
 
     def blit(self):
-        for button in self.buttons:
-            button.blit()
         for text_window in self.text_windows:
             text_window.blit()
         for image in self.images:
             screen.blit()
+        for button in self.buttons:
+            button.blit()
 
     def handle_click(self, mouse_pos):
         for button in self.buttons:
@@ -55,6 +55,25 @@ class Button:
 
     def collidepoint(self, point):
         return self.wood_board_rect.collidepoint(point)
+
+
+class Text_Window:
+    def __init__(self, x, y, width, height, string, font_path, font_size, color, bg_color=(255, 255, 255)):
+        self.string = string
+        font = pg.font.Font(font_path, font_size)
+        self.write = font.render(string, True, color)
+        self.text_rect = self.write.get_rect(topleft=(x, y))
+        self.rect = pg.Rect(x, y, width, height)
+        self.surface = pg.Surface((width, height))
+        self.surface.fill(bg_color)
+        self.surface.set_alpha(128)
+
+    def blit(self):
+        screen.blit(self.surface, self.rect)
+        screen.blit(self.write, self.text_rect.topleft)
+
+
+
 b1 = Button(20, 50, "스테이터스를 보다")
 b2 = Button(20, 110, "술집에 가다")
 b3 = Button(20, 170, "상점에 가다")
@@ -63,6 +82,8 @@ TOWN_WINDOW = Window()
 TOWN_WINDOW.buttons = [b1,b2,b3,b4]
 OPEN_WINDOW = None
 
+tt = Text_Window(300, 300, 200, 200, "Hello Woㅇㄴㄹㅇㄴㄹㄴㄹㅇㄹㄴㅇㄴrld!", "font/NanumGothicBold.otf", 20, (255, 225, 225), (0, 0, 0))
+TOWN_WINDOW.text_windows = [tt]
 
 running = True
 while running:
