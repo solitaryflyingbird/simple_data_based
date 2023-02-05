@@ -1,4 +1,5 @@
 import pygame as pg
+import data_procress
 
 pg.init()
 
@@ -100,10 +101,13 @@ TOWN_WINDOW = Window()
 TOWN_WINDOW.buttons = [b1,b2,b3,b4]
 OPEN_WINDOW = None
 
+##r기본 텍스트창
 town_text = Text_Window(20, 300, 300, 170, "마을이다 ㅇㅅㅇ.\n마을이라구 ㅇㅅㅇ.", "font/NanumGothicBold.otf", 20, (255, 225, 225), (0, 0, 0))
+gold_box = Text_Window(650, 20, 200, 50, str(data_procress.gold.gold)+" 골드", "font/NanumGothicBold.otf", 20, (255, 225, 225), (0, 0, 0))
 
-sojo_image = Image(sojo, 300, 0,)
-TOWN_WINDOW.text_windows = [town_text]
+
+sojo_image = Image(sojo, 270, 0,)
+TOWN_WINDOW.text_windows = [town_text, gold_box]
 TOWN_WINDOW.images = [sojo_image]
 
 running = True
