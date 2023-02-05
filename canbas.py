@@ -60,9 +60,11 @@ class Button:
 class Text_Window:
     def __init__(self, x, y, width, height, string, font_path, font_size, color, bg_color=(255, 255, 255)):
         self.string = string
-        font = pg.font.Font(font_path, font_size)
-        self.write = font.render(string, True, color)
-        self.text_rect = self.write.get_rect(topleft=(x, y))
+        self.font_path = font_path
+        self.font_size = font_size
+        self.color = color
+        self.x = x
+        self.y = y
         self.rect = pg.Rect(x, y, width, height)
         self.surface = pg.Surface((width, height))
         self.surface.fill(bg_color)
@@ -70,8 +72,16 @@ class Text_Window:
 
     def blit(self):
         screen.blit(self.surface, self.rect)
-        screen.blit(self.write, self.text_rect.topleft)
+        font = pg.font.Font(self.font_path, self.font_size)
+        lines = self.string.split("\n")
+        y_offset = 0
+        for line in lines:
+            line_surface = font.render(line, True, self.color)
+            line_rect = line_surface.get_rect(topleft=(self.x, self.y + y_offset))
+            screen.blit(line_surface, line_rect)
+            y_offset += self.font_size
 
+        
 
 
 b1 = Button(20, 50, "스테이터스를 보다")
@@ -82,7 +92,7 @@ TOWN_WINDOW = Window()
 TOWN_WINDOW.buttons = [b1,b2,b3,b4]
 OPEN_WINDOW = None
 
-tt = Text_Window(300, 300, 200, 200, "Hello Woㅇㄴㄹㅇㄴㄹㄴㄹㅇㄹㄴㅇㄴrld!", "font/NanumGothicBold.otf", 20, (255, 225, 225), (0, 0, 0))
+tt = Text_Window(300, 300, 200, 200, "Hello Woㅇㄴㄹㅇ\nㄴㄹㄴㄹㅇㄹㄴㅇㄴrld!", "font/NanumGothicBold.otf", 20, (255, 225, 225), (0, 0, 0))
 TOWN_WINDOW.text_windows = [tt]
 
 running = True
