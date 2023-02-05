@@ -10,7 +10,7 @@ clock = pg.time.Clock()
 
 town_back = pg.image.load("IMAGE/town_back_dark.png")
 wood_board = pg.image.load("IMAGE/wood_board.png")
-
+sojo = pg.image.load("IMAGE/sojo.png")
 
 class Window:
     def __init__(self, x=0, y=0, width=None, height=None, buttons=[], text_windows=[], images=[]):
@@ -26,7 +26,7 @@ class Window:
         for text_window in self.text_windows:
             text_window.blit()
         for image in self.images:
-            screen.blit()
+            image.blit()
         for button in self.buttons:
             button.blit()
 
@@ -79,9 +79,17 @@ class Text_Window:
             line_surface = font.render(line, True, self.color)
             line_rect = line_surface.get_rect(topleft=(self.x, self.y + y_offset))
             screen.blit(line_surface, line_rect)
-            y_offset += self.font_size
+            y_offset += self.font_size    
+class Image:
+    def __init__(self, image, x, y):
+        self.image = image
+        self.x = x
+        self.y = y
+        self.rect = self.image.get_rect(topleft=(x, y))
 
-        
+    def blit(self):
+        screen.blit(self.image, self.rect)
+
 
 
 b1 = Button(20, 50, "스테이터스를 보다")
@@ -92,8 +100,11 @@ TOWN_WINDOW = Window()
 TOWN_WINDOW.buttons = [b1,b2,b3,b4]
 OPEN_WINDOW = None
 
-tt = Text_Window(300, 300, 200, 200, "Hello Woㅇㄴㄹㅇ\nㄴㄹㄴㄹㅇㄹㄴㅇㄴrld!", "font/NanumGothicBold.otf", 20, (255, 225, 225), (0, 0, 0))
-TOWN_WINDOW.text_windows = [tt]
+town_text = Text_Window(20, 300, 300, 170, "마을이다 ㅇㅅㅇ.\n마을이라구 ㅇㅅㅇ.", "font/NanumGothicBold.otf", 20, (255, 225, 225), (0, 0, 0))
+
+sojo_image = Image(sojo, 300, 0,)
+TOWN_WINDOW.text_windows = [town_text]
+TOWN_WINDOW.images = [sojo_image]
 
 running = True
 while running:
