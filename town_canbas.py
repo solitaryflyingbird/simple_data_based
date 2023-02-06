@@ -69,7 +69,7 @@ class Text_Window:
         self.rect = pg.Rect(x, y, width, height)
         self.surface = pg.Surface((width, height))
         self.surface.fill(bg_color)
-        self.surface.set_alpha(128)
+        self.surface.set_alpha(198)
 
     def blit(self):
         screen.blit(self.surface, self.rect)
@@ -92,28 +92,46 @@ class Image:
         screen.blit(self.image, self.rect)
 
 
+OPEND_WINDOW = []
 
-b1 = Button(20, 50, "스테이터스를 보다")
+
+##스테이터스 윈도우
+STATUS_WINDOW = Window()
+status_text = "\n".join([f"{key}: {value}" for key, value in data_procress.status.data.items()])
+status_text_win = Text_Window(400, 200, 300, 130, status_text, "font/NanumGothicBold.otf", 20, (255, 225, 225), (0, 0, 0))
+STATUS_WINDOW.text_windows = [status_text_win]
+
+def b1_function():
+    global OPEND_WINDOW
+    if OPEND_WINDOW== []:
+        OPEND_WINDOW.append(STATUS_WINDOW)
+        print(OPEND_WINDOW, 111)
+
+
+##타운 기본 윈도우
+TOWN_WINDOW = Window()
+b1 = Button(20, 50, "스테이터스를 보다",b1_function)
 b2 = Button(20, 110, "술집에 가다")
 b3 = Button(20, 170, "상점에 가다")
 b4 = Button(20, 230, "길드에 가다")
-TOWN_WINDOW = Window()
 TOWN_WINDOW.buttons = [b1,b2,b3,b4]
-OPEN_WINDOW = None
-
-##r기본 텍스트창
 town_text = Text_Window(20, 300, 300, 170, "마을이다 ㅇㅅㅇ.\n마을이라구 ㅇㅅㅇ.", "font/NanumGothicBold.otf", 20, (255, 225, 225), (0, 0, 0))
 gold_box = Text_Window(650, 20, 200, 50, str(data_procress.gold.gold)+" 골드", "font/NanumGothicBold.otf", 20, (255, 225, 225), (0, 0, 0))
-
-
 sojo_image = Image(sojo, 270, 0,)
 TOWN_WINDOW.text_windows = [town_text, gold_box]
 TOWN_WINDOW.images = [sojo_image]
+
+
+
+
+
 
 running = True
 while running:
     screen.blit(town_back, (0,0))
     TOWN_WINDOW.blit()
+    if OPEND_WINDOW:
+        OPEND_WINDOW[0].blit()
     for event in pg.event.get():
         mouse_pressed = pg.mouse.get_pressed()[0]
         if mouse_pressed:
@@ -124,6 +142,7 @@ while running:
                 print(pressed.string)
         if event.type == pg.QUIT:
             running = False
+
     
     
     pg.display.update()
