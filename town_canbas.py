@@ -1,5 +1,6 @@
 import pygame as pg
 import data_procress
+import window_ui
 
 pg.init()
 
@@ -13,83 +14,10 @@ town_back = pg.image.load("IMAGE/town_back_dark.png")
 wood_board = pg.image.load("IMAGE/wood_board.png")
 sojo = pg.image.load("IMAGE/sojo.png")
 
-class Window:
-    def __init__(self, x=0, y=0, width=None, height=None, buttons=[], text_windows=[], images=[]):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.buttons = buttons
-        self.text_windows = text_windows
-        self.images = images
-
-    def blit(self):
-        for text_window in self.text_windows:
-            text_window.blit()
-        for image in self.images:
-            image.blit()
-        for button in self.buttons:
-            button.blit()
-
-    def handle_click(self, mouse_pos):
-        for button in self.buttons:
-            button_click = button.collidepoint(mouse_pos)
-            if button_click:
-                return button
-
-
-class Button:
-    def __init__(self, x, y, string, callback = lambda: None):
-        self.string = string
-        self.wood_board_rect = wood_board.get_rect(topleft=(x, y))
-        font = pg.font.Font("font/NanumGothicBold.otf", 20)
-        self.write = font.render((string), True, (0,0,0))
-        self.text_rect = self.write.get_rect(topleft=(x+20, y+15))
-        self.callback = callback
-        screen.blit(wood_board, self.wood_board_rect.topleft)
-        screen.blit(self.write, self.text_rect.topleft)
-
-
-    def blit(self):
-        screen.blit(wood_board, self.wood_board_rect.topleft)
-        screen.blit(self.write, self.text_rect.topleft)
-
-    def collidepoint(self, point):
-        return self.wood_board_rect.collidepoint(point)
-
-
-class Text_Window:
-    def __init__(self, x, y, width, height, string, font_path, font_size, color, bg_color=(255, 255, 255)):
-        self.string = string
-        self.font_path = font_path
-        self.font_size = font_size
-        self.color = color
-        self.x = x
-        self.y = y
-        self.rect = pg.Rect(x, y, width, height)
-        self.surface = pg.Surface((width, height))
-        self.surface.fill(bg_color)
-        self.surface.set_alpha(198)
-
-    def blit(self):
-        screen.blit(self.surface, self.rect)
-        font = pg.font.Font(self.font_path, self.font_size)
-        lines = self.string.split("\n")
-        y_offset = 0
-        for line in lines:
-            line_surface = font.render(line, True, self.color)
-            line_rect = line_surface.get_rect(topleft=(self.x, self.y + y_offset))
-            screen.blit(line_surface, line_rect)
-            y_offset += self.font_size    
-class Image:
-    def __init__(self, image, x, y):
-        self.image = image
-        self.x = x
-        self.y = y
-        self.rect = self.image.get_rect(topleft=(x, y))
-
-    def blit(self):
-        screen.blit(self.image, self.rect)
+Window = window_ui.Window
+Button = window_ui.Button
+Image = window_ui.Image
+Text_Window = window_ui.Text_Window
 
 
 OPEND_WINDOW = []
@@ -98,31 +26,36 @@ OPEND_WINDOW = []
 ##스테이터스 윈도우
 STATUS_WINDOW = Window()
 status_text = "\n".join([f"{key}: {value}" for key, value in data_procress.status.data.items()])
-status_text_win = Text_Window(400, 200, 300, 130, status_text, "font/NanumGothicBold.otf", 20, (255, 225, 225), (0, 0, 0))
-STATUS_WINDOW.text_windows = [status_text_win]
+status_text_win_b1 = Text_Window(400, 200, 300, 130, status_text, "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
+STATUS_WINDOW.text_windows = [status_text_win_b1]
 
+##술집 윈도우
+status_text_win_b2 = Text_Window(400, 300, 300, 130, "이곳은 술집이다\n어차피 모험가의 삶은 하루살이\n마음껏 마시자.", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
+BEER_WINDOW = Window()
+BEER_WINDOW.text_windows = [status_text_win_b2]
 
 def create_open_function(win):
     def open_function():
         global OPEND_WINDOW
-        if OPEND_WINDOW == []:
-            OPEND_WINDOW.append(win)
-        else:
+        if OPEND_WINDOW and OPEND_WINDOW[0] == win:
             OPEND_WINDOW = []
+        else:
+            OPEND_WINDOW = [win]
     return open_function
 b1_function = create_open_function(STATUS_WINDOW)
+b2_function = create_open_function(BEER_WINDOW)
 
 
 ##타운 기본 윈도우
 TOWN_WINDOW = Window()
-b1 = Button(20, 50, "스테이터스를 보다",b1_function)
-b2 = Button(20, 110, "술집에 가다")
-b3 = Button(20, 170, "상점에 가다")
-b4 = Button(20, 230, "길드에 가다")
+b1 = Button(20, 50, "스테이터스를 보다", wood_board, screen,b1_function)
+b2 = Button(20, 110, "술집에 가다", wood_board, screen, b2_function)
+b3 = Button(20, 170, "상점에 가다", wood_board, screen)
+b4 = Button(20, 230, "길드에 가다", wood_board, screen)
 TOWN_WINDOW.buttons = [b1,b2,b3,b4]
-town_text = Text_Window(20, 300, 300, 170, "마을이다 ㅇㅅㅇ.\n마을이라구 ㅇㅅㅇ.", "font/NanumGothicBold.otf", 20, (255, 225, 225), (0, 0, 0))
-gold_box = Text_Window(650, 20, 200, 50, str(data_procress.gold.gold)+" 골드", "font/NanumGothicBold.otf", 20, (255, 225, 225), (0, 0, 0))
-sojo_image = Image(sojo, 270, 0,)
+town_text = Text_Window(20, 300, 300, 170, "마을이다 ㅇㅅㅇ.\n마을이라구 ㅇㅅㅇ.", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
+gold_box = Text_Window(650, 20, 200, 50, str(data_procress.gold.gold)+" 골드", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
+sojo_image = Image(sojo, 270, 0,screen)
 TOWN_WINDOW.text_windows = [town_text, gold_box]
 TOWN_WINDOW.images = [sojo_image]
 

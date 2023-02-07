@@ -1,0 +1,84 @@
+
+import pygame as pg
+
+class Window:
+    def __init__(self, x=0, y=0, width=None, height=None, buttons=[], text_windows=[], images=[]):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.buttons = buttons
+        self.text_windows = text_windows
+        self.images = images
+
+    def blit(self):
+        for text_window in self.text_windows:
+            text_window.blit()
+        for image in self.images:
+            image.blit()
+        for button in self.buttons:
+            button.blit()
+
+    def handle_click(self, mouse_pos):
+        for button in self.buttons:
+            button_click = button.collidepoint(mouse_pos)
+            if button_click:
+                return button
+
+
+class Button:
+    def __init__(self, x, y, string, board, screen, callback = lambda: None):
+        self.board = board
+        self.screen = screen
+        self.string = string
+        self.wood_board_rect = board.get_rect(topleft=(x, y))
+        font = pg.font.Font("font/NanumGothicBold.otf", 20)
+        self.write = font.render((string), True, (0,0,0))
+        self.text_rect = self.write.get_rect(topleft=(x+20, y+15))
+        self.callback = callback
+        self.screen.blit(board, self.wood_board_rect.topleft)
+        self.screen.blit(self.write, self.text_rect.topleft)
+
+
+    def blit(self):
+        self.screen.blit(self.board, self.wood_board_rect.topleft)
+        self.screen.blit(self.write, self.text_rect.topleft)
+
+    def collidepoint(self, point):
+        return self.wood_board_rect.collidepoint(point)
+
+
+class Text_Window:
+    def __init__(self, x, y, width, height, string, font_path, font_size, color,screen, bg_color=(255, 255, 255)):
+        self.screen = screen
+        self.string = string
+        self.font_path = font_path
+        self.font_size = font_size
+        self.color = color
+        self.x = x
+        self.y = y
+        self.rect = pg.Rect(x, y, width, height)
+        self.surface = pg.Surface((width, height))
+        self.surface.fill(bg_color)
+        self.surface.set_alpha(198)
+
+    def blit(self):
+        self.screen.blit(self.surface, self.rect)
+        font = pg.font.Font(self.font_path, self.font_size)
+        lines = self.string.split("\n")
+        y_offset = 0
+        for line in lines:
+            line_surface = font.render(line, True, self.color)
+            line_rect = line_surface.get_rect(topleft=(self.x, self.y + y_offset))
+            self.screen.blit(line_surface, line_rect)
+            y_offset += self.font_size    
+class Image():
+    def __init__(self, image, x, y, screen):
+        self.screen = screen
+        self.image = image
+        self.x = x
+        self.y = y
+        self.rect = self.image.get_rect(topleft=(x, y))
+
+    def blit(self):
+        self.screen.blit(self.image, self.rect)
