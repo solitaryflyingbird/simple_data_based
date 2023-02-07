@@ -106,6 +106,8 @@ def b1_function():
     if OPEND_WINDOW== []:
         OPEND_WINDOW.append(STATUS_WINDOW)
         print(OPEND_WINDOW, 111)
+    else:
+        OPEND_WINDOW = []
 
 
 ##타운 기본 윈도우
