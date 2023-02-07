@@ -1,6 +1,7 @@
 import pygame as pg
 import data_procress
 import window_ui
+import function_maker
 
 pg.init()
 
@@ -13,15 +14,30 @@ clock = pg.time.Clock()
 town_back = pg.image.load("IMAGE/town_back_dark.png")
 wood_board = pg.image.load("IMAGE/wood_board.png")
 sojo = pg.image.load("IMAGE/sojo.png")
+beer = pg.image.load("IMAGE/beer.png")
+
 
 Window = window_ui.Window
 Button = window_ui.Button
 Image = window_ui.Image
 Text_Window = window_ui.Text_Window
-
+Image_button = window_ui.Image_button
 
 OPEND_WINDOW = []
 
+
+###오픈함수제작함수
+def create_open_function(win):
+    def open_function():
+        global OPEND_WINDOW
+        if OPEND_WINDOW and OPEND_WINDOW[0] == win:
+            OPEND_WINDOW = []
+        else:
+            OPEND_WINDOW = [win]
+    return open_function
+##데이터 변경 함수 제작 함수
+def xxx():
+    print(111)
 
 ##스테이터스 윈도우
 STATUS_WINDOW = Window()
@@ -33,15 +49,14 @@ STATUS_WINDOW.text_windows = [status_text_win_b1]
 status_text_win_b2 = Text_Window(400, 300, 300, 130, "이곳은 술집이다\n어차피 모험가의 삶은 하루살이\n마음껏 마시자.", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
 BEER_WINDOW = Window()
 BEER_WINDOW.text_windows = [status_text_win_b2]
+beer_button = Image_button(beer, 450, 100, screen, callback = xxx)
+BEER_WINDOW.buttons=[beer_button]
 
-def create_open_function(win):
-    def open_function():
-        global OPEND_WINDOW
-        if OPEND_WINDOW and OPEND_WINDOW[0] == win:
-            OPEND_WINDOW = []
-        else:
-            OPEND_WINDOW = [win]
-    return open_function
+
+
+        
+
+
 b1_function = create_open_function(STATUS_WINDOW)
 b2_function = create_open_function(BEER_WINDOW)
 
@@ -61,9 +76,6 @@ TOWN_WINDOW.images = [sojo_image]
 
 
 
-
-
-
 running = True
 while running:
     screen.blit(town_back, (0,0))
@@ -77,7 +89,10 @@ while running:
             pressed = TOWN_WINDOW.handle_click(mouse_pos)
             if pressed:
                 pressed.callback()
-                print(pressed.string)
+            if OPEND_WINDOW:
+                pressed = OPEND_WINDOW[0].handle_click(mouse_pos)
+                if pressed:
+                    pressed.callback()
         if event.type == pg.QUIT:
             running = False
 
