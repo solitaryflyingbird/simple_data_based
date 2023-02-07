@@ -101,13 +101,16 @@ status_text = "\n".join([f"{key}: {value}" for key, value in data_procress.statu
 status_text_win = Text_Window(400, 200, 300, 130, status_text, "font/NanumGothicBold.otf", 20, (255, 225, 225), (0, 0, 0))
 STATUS_WINDOW.text_windows = [status_text_win]
 
-def b1_function():
-    global OPEND_WINDOW
-    if OPEND_WINDOW== []:
-        OPEND_WINDOW.append(STATUS_WINDOW)
-        print(OPEND_WINDOW, 111)
-    else:
-        OPEND_WINDOW = []
+
+def create_open_function(win):
+    def open_function():
+        global OPEND_WINDOW
+        if OPEND_WINDOW == []:
+            OPEND_WINDOW.append(win)
+        else:
+            OPEND_WINDOW = []
+    return open_function
+b1_function = create_open_function(STATUS_WINDOW)
 
 
 ##타운 기본 윈도우
