@@ -37,7 +37,10 @@ def create_open_function(win):
     return open_function
 ##데이터 변경 함수 제작 함수
 def xxx():
-    print(111)
+    data_procress.gold.gold-=1
+    gold_box.string= str(data_procress.gold.gold)+" 골드"
+    print(data_procress.gold.gold)
+
 
 ##스테이터스 윈도우
 STATUS_WINDOW = Window()
