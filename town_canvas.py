@@ -36,10 +36,26 @@ def create_open_function(win):
             OPEND_WINDOW = [win]
     return open_function
 ##데이터 변경 함수 제작 함수
-def xxx():
-    data_procress.gold.gold-=1
-    gold_box.string= str(data_procress.gold.gold)+" 골드"
-    print(data_procress.gold.gold)
+
+def make_change_function_gold(change_num):
+    def change_function():
+        data_procress.gold.gold += change_num
+        print(data_procress.gold.gold)
+        gold_box.string= str(data_procress.gold.gold)+" 골드"
+    return change_function
+
+def make_change_function_day(change_num):
+    def change_function():
+        data_procress.day.day += change_num
+        print(data_procress.day.day)
+    return change_function
+def make_change_function_status(attribute, change_num):
+    def change_function():
+        data_procress.status.status_update(attribute, change_num)
+        status_text_win_b1.string = "\n".join([f"{key}: {value}" for key, value in data_procress.status.data.items()])
+        print(data_procress.status.data)
+    return change_function
+
 
 
 ##스테이터스 윈도우
@@ -52,7 +68,13 @@ STATUS_WINDOW.text_windows = [status_text_win_b1]
 status_text_win_b2 = Text_Window(400, 300, 300, 130, "이곳은 술집이다\n어차피 모험가의 삶은 하루살이\n마음껏 마시자.", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
 BEER_WINDOW = Window()
 BEER_WINDOW.text_windows = [status_text_win_b2]
-beer_button = Image_button(beer, 450, 100, screen, callback = xxx)
+
+#######
+#beer_button = Image_button(beer, 450, 100, screen, callback = make_change_function_gold(1))
+beer_button = Image_button(beer, 450, 100, screen, callback = make_change_function_status("strength", 1))
+
+
+
 BEER_WINDOW.buttons=[beer_button]
 
 
