@@ -1,5 +1,5 @@
 import pygame as pg
-import data_procress
+import data_process
 import window_ui
 import function_maker
 
@@ -39,47 +39,48 @@ def create_open_function(win):
 
 def make_change_function_gold(change_num):
     def change_function():
-        data_procress.gold.gold += change_num
-        print(data_procress.gold.gold)
-        gold_box.string= str(data_procress.gold.gold)+" 골드"
+        data_process.gold.gold += change_num
+        print(data_process.gold.gold)
+        gold_box.string= str(data_process.gold.gold)+" 골드"
     return change_function
-
 def make_change_function_day(change_num):
     def change_function():
-        data_procress.day.day += change_num
-        print(data_procress.day.day)
+        data_process.day.day += change_num
+        print(data_process.day.day)
     return change_function
 def make_change_function_status(attribute, change_num):
     def change_function():
-        data_procress.status.status_update(attribute, change_num)
-        status_text_win_b1.string = "\n".join([f"{key}: {value}" for key, value in data_procress.status.data.items()])
-        print(data_procress.status.data)
+        data_process.status.status_update(attribute, change_num)
+        status_text_win_b1.string = "\n".join([f"{key}: {value}" for key, value in data_process.status.data.items()])
+        print(data_process.status.data)
+        beer_point.string = "취기 : " + str(data_process.status.data["drunk"])
     return change_function
+
+def merge_functions(*functions):
+    def merged_function(*args, **kwargs):
+        for func in functions:
+            func(*args, **kwargs)
+    return merged_function
+
+
+
 
 
 
 ##스테이터스 윈도우
 STATUS_WINDOW = Window()
-status_text = "\n".join([f"{key}: {value}" for key, value in data_procress.status.data.items()])
-status_text_win_b1 = Text_Window(400, 200, 300, 130, status_text, "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
+status_text = "\n".join([f"{key}: {value}" for key, value in data_process.status.data.items()])
+status_text_win_b1 = Text_Window(400, 200, 300, 140, status_text, "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
 STATUS_WINDOW.text_windows = [status_text_win_b1]
 
 ##술집 윈도우
 status_text_win_b2 = Text_Window(400, 300, 300, 130, "이곳은 술집이다\n어차피 모험가의 삶은 하루살이\n마음껏 마시자.", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
+beer_point = Text_Window(460, 270, 130, 25, "취기 : " + str(data_process.status.data["drunk"]), "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
 BEER_WINDOW = Window()
-BEER_WINDOW.text_windows = [status_text_win_b2]
-
-#######
-#beer_button = Image_button(beer, 450, 100, screen, callback = make_change_function_gold(1))
-beer_button = Image_button(beer, 450, 100, screen, callback = make_change_function_status("strength", 1))
-
-
-
+BEER_WINDOW.text_windows = [status_text_win_b2,beer_point]
+beer_drink = merge_functions(make_change_function_status("drunk", 1),make_change_function_gold(-1))
+beer_button = Image_button(beer, 450, 100, screen, callback = beer_drink)    
 BEER_WINDOW.buttons=[beer_button]
-
-
-
-        
 
 
 b1_function = create_open_function(STATUS_WINDOW)
@@ -94,7 +95,7 @@ b3 = Button(20, 170, "상점에 가다", wood_board, screen)
 b4 = Button(20, 230, "길드에 가다", wood_board, screen)
 TOWN_WINDOW.buttons = [b1,b2,b3,b4]
 town_text = Text_Window(20, 300, 300, 170, "마을이다 ㅇㅅㅇ.\n마을이라구 ㅇㅅㅇ.", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
-gold_box = Text_Window(650, 20, 200, 50, str(data_procress.gold.gold)+" 골드", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
+gold_box = Text_Window(650, 20, 200, 50, str(data_process.gold.gold)+" 골드", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
 sojo_image = Image(sojo, 270, 0,screen)
 TOWN_WINDOW.text_windows = [town_text, gold_box]
 TOWN_WINDOW.images = [sojo_image]

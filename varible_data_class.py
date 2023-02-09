@@ -14,6 +14,7 @@ class Status():
             "strength": 10,
             "dexterity": 10,
             "intelligence": 10,
+            "drunk" : 0
         }
 
     def status_update(self, attribute: str, value: int):
