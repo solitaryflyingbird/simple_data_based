@@ -1,0 +1,12 @@
+{
+    "name": "goblin",
+    "portrait": "",
+    "status": {
+        "rank" : "D",
+        "health": 40,
+        "strength": 8,
+        "dexterity": 7,
+        "intelligence": 5
+    }
+
+}

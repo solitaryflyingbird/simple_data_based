@@ -1,0 +1,13 @@
+{
+    "name": "앤트",
+    "portrait": "",
+    "status": {
+        "rank" : 1,
+        "health": 30,
+        "strength": 15,
+        "dexterity": 5,
+        "intelligence": 2,
+        "exp" : 1
+    }
+
+}

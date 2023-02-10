@@ -1,0 +1,13 @@
+{
+    "name": "고블린",
+    "portrait": "",
+    "status": {
+        "rank" : 1,
+        "health": 40,
+        "strength": 8,
+        "dexterity": 7,
+        "intelligence": 5,
+        "exp" : 1
+    }
+
+}

@@ -73,32 +73,51 @@ status_text = "\n".join([f"{key}: {value}" for key, value in data_process.status
 status_text_win_b1 = Text_Window(400, 200, 300, 140, status_text, "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
 STATUS_WINDOW.text_windows = [status_text_win_b1]
 
+
+
 ##술집 윈도우
 status_text_win_b2 = Text_Window(400, 300, 300, 130, "이곳은 술집이다\n어차피 모험가의 삶은 하루살이\n마음껏 마시자.", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
 beer_point = Text_Window(460, 270, 130, 25, "취기 : " + str(data_process.status.data["drunk"]), "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
 BEER_WINDOW = Window()
 BEER_WINDOW.text_windows = [status_text_win_b2,beer_point]
+##술집윈도우 기능
+def beer_try():
+    if data_process.gold.gold<1:
+        status_text_win_b2.string = "돈이 부족하다"
+    elif data_process.status.data["drunk"]>9:
+        status_text_win_b2.string = "너무 취헀다"
+    else:
+        beer_drink()
 beer_drink = merge_functions(make_change_function_status("drunk", 1),make_change_function_gold(-1))
-beer_button = Image_button(beer, 450, 100, screen, callback = beer_drink)    
+beer_button = Image_button(beer, 450, 100, screen, callback = beer_try)    
 BEER_WINDOW.buttons=[beer_button]
+
+
+#길드 윈도우
+GUILD_WINDOW = Window()
+guild_text = Text_Window(400, 300, 300, 130, "이곳은 길드다\n원하는 임무를 클릭해보자.", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
+GUILD_WINDOW.text_windows = [guild_text]
 
 
 b1_function = create_open_function(STATUS_WINDOW)
 b2_function = create_open_function(BEER_WINDOW)
-
+b4_function = create_open_function(GUILD_WINDOW)
 
 ##타운 기본 윈도우
 TOWN_WINDOW = Window()
 b1 = Button(20, 50, "스테이터스를 보다", wood_board, screen,b1_function)
 b2 = Button(20, 110, "술집에 가다", wood_board, screen, b2_function)
 b3 = Button(20, 170, "상점에 가다", wood_board, screen)
-b4 = Button(20, 230, "길드에 가다", wood_board, screen)
+b4 = Button(20, 230, "길드에 가다", wood_board, screen, b4_function)
 TOWN_WINDOW.buttons = [b1,b2,b3,b4]
 town_text = Text_Window(20, 300, 300, 170, "마을이다 ㅇㅅㅇ.\n마을이라구 ㅇㅅㅇ.", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
 gold_box = Text_Window(650, 20, 200, 50, str(data_process.gold.gold)+" 골드", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
 sojo_image = Image(sojo, 270, 0,screen)
 TOWN_WINDOW.text_windows = [town_text, gold_box]
 TOWN_WINDOW.images = [sojo_image]
+
+
+
 
 
 

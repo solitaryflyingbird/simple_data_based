@@ -1,0 +1,13 @@
+{
+    "name": "슬라임",
+    "portrait": "",
+    "status": {
+        "rank" : 1,
+        "health": 50,
+        "strength": 10,
+        "dexterity": 5,
+        "intelligence": 0,
+        "exp" : 1
+    }
+
+}
