@@ -153,7 +153,6 @@ while running:
             running = False
 
     
-    
     pg.display.update()
     
     clock.tick(20)
