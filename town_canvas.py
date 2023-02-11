@@ -40,19 +40,16 @@ def create_open_function(win):
 def make_change_function_gold(change_num):
     def change_function():
         data_process.gold.gold += change_num
-        print(data_process.gold.gold)
         gold_box.string= str(data_process.gold.gold)+" 골드"
     return change_function
 def make_change_function_day(change_num):
     def change_function():
         data_process.day.day += change_num
-        print(data_process.day.day)
     return change_function
 def make_change_function_status(attribute, change_num):
     def change_function():
         data_process.status.status_update(attribute, change_num)
         status_text_win_b1.string = "\n".join([f"{key}: {value}" for key, value in data_process.status.data.items()])
-        print(data_process.status.data)
         beer_point.string = "취기 : " + str(data_process.status.data["drunk"])
     return change_function
 
@@ -101,7 +98,13 @@ import quest_maker
 random_quest_1 = quest_maker.random_monster_pick('./MONSTER/D')
 random_quest_2 = quest_maker.random_monster_pick('./MONSTER/D')
 
-print(random_quest_1.quest_name)
+
+random_quest_window_button_1 = Text_Window(400, 100, 300, 50, random_quest_1.quest_name, "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
+random_quest_window_button_2 = Text_Window(400, 200, 300, 50, random_quest_2.quest_name, "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
+GUILD_WINDOW.text_windows.append(random_quest_window_button_1)
+GUILD_WINDOW.text_windows.append(random_quest_window_button_2)
+print(random_quest_1.monster_name)
+print(random_quest_2.monster_name)
 
 
 
