@@ -33,14 +33,18 @@ def load_data(filename):
 
 def load_npcs(folder_name):
     for filename in os.listdir(folder_name):
-        with open(os.path.join(folder_name, filename), "r") as file:
-            npc_data = json.load(file)
-            NPC_DATA[npc_data["name"]] = npc_data
+        if filename.endswith('.json'):
+            with open(os.path.join(folder_name, filename), "r") as file:
+                print(filename)
+                npc_data = json.load(file)
+                NPC_DATA[npc_data["name"]] = npc_data
 def load_items(folder_name):
     for filename in os.listdir(folder_name):
-        with open(os.path.join(folder_name, filename), "r") as file:
-            item_data = json.load(file)
-            ITEM_DATA[item_data["name"]] = item_data
+        if filename.endswith('.json'):
+            with open(os.path.join(folder_name, filename), "r") as file:
+                item_data = json.load(file)
+                ITEM_DATA[item_data["name"]] = item_data
+
 
 load_npcs("NPC")
 load_items("ITEM")

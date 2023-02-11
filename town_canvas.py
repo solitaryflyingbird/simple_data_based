@@ -97,11 +97,19 @@ BEER_WINDOW.buttons=[beer_button]
 GUILD_WINDOW = Window()
 guild_text = Text_Window(400, 300, 300, 130, "이곳은 길드다\n원하는 임무를 클릭해보자.", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
 GUILD_WINDOW.text_windows = [guild_text]
+import quest_maker
+random_quest_1 = quest_maker.random_monster_pick('./MONSTER/D')
+random_quest_2 = quest_maker.random_monster_pick('./MONSTER/D')
+
+print(random_quest_1.quest_name)
+
+
 
 
 b1_function = create_open_function(STATUS_WINDOW)
 b2_function = create_open_function(BEER_WINDOW)
 b4_function = create_open_function(GUILD_WINDOW)
+
 
 ##타운 기본 윈도우
 TOWN_WINDOW = Window()
