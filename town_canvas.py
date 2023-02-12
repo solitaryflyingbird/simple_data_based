@@ -15,6 +15,7 @@ town_back = pg.image.load("IMAGE/town_back_dark.png")
 wood_board = pg.image.load("IMAGE/wood_board.png")
 sojo = pg.image.load("IMAGE/sojo.png")
 beer = pg.image.load("IMAGE/beer.png")
+tobul = pg.image.load("IMAGE/tobul.png")
 
 
 Window = window_ui.Window
@@ -101,10 +102,17 @@ random_quest_2 = quest_maker.random_monster_pick('./MONSTER/D')
 
 random_quest_window_button_1 = Text_Window(400, 100, 300, 50, random_quest_1.quest_name, "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
 random_quest_window_button_2 = Text_Window(400, 200, 300, 50, random_quest_2.quest_name, "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
+
 GUILD_WINDOW.text_windows.append(random_quest_window_button_1)
 GUILD_WINDOW.text_windows.append(random_quest_window_button_2)
-print(random_quest_1.monster_name)
-print(random_quest_2.monster_name)
+
+guild_b1 = Image_button(tobul, 400, 150, screen)
+guild_b2 = Image_button(tobul, 400, 250, screen)
+
+GUILD_WINDOW.buttons.append(guild_b1)
+GUILD_WINDOW.buttons.append(guild_b2)
+
+
 
 
 
@@ -112,15 +120,13 @@ print(random_quest_2.monster_name)
 b1_function = create_open_function(STATUS_WINDOW)
 b2_function = create_open_function(BEER_WINDOW)
 b4_function = create_open_function(GUILD_WINDOW)
-
-
 ##타운 기본 윈도우
 TOWN_WINDOW = Window()
-b1 = Button(20, 50, "스테이터스를 보다", wood_board, screen,b1_function)
-b2 = Button(20, 110, "술집에 가다", wood_board, screen, b2_function)
-b3 = Button(20, 170, "상점에 가다", wood_board, screen)
-b4 = Button(20, 230, "길드에 가다", wood_board, screen, b4_function)
-TOWN_WINDOW.buttons = [b1,b2,b3,b4]
+town_b1 = Button(20, 50, "스테이터스를 보다", wood_board, screen,b1_function)
+town_b2 = Button(20, 110, "술집에 가다", wood_board, screen, b2_function)
+town_b3 = Button(20, 170, "상점에 가다", wood_board, screen)
+town_b4 = Button(20, 230, "길드에 가다", wood_board, screen, b4_function)
+TOWN_WINDOW.buttons = [town_b1,town_b2,town_b3,town_b4]
 town_text = Text_Window(20, 300, 300, 170, "마을이다 ㅇㅅㅇ.\n마을이라구 ㅇㅅㅇ.", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
 gold_box = Text_Window(650, 20, 200, 50, str(data_process.gold.gold)+" 골드", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
 sojo_image = Image(sojo, 270, 0,screen)
