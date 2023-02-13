@@ -13,11 +13,6 @@ class my_character:
         self.intelligence = my_status['intelligence']
         self.drunk = my_status['drunk']
 
-    def attack(self, target):
-        damage = self.strength * random.uniform(0.5, 1.5)
-        target.health -= damage
-        print(f"{self} attacked {target} for {damage:.2f} damage.")
-
 class monster:
     def __init__(self, name, my_status):
         self.name = name
@@ -27,10 +22,6 @@ class monster:
         self.intelligence = my_status['intelligence']
         self.exp = my_status['exp']
 
-    def attack(self, target):
-        damage = self.strength * random.uniform(0.5, 1.5)
-        target.health -= damage
-        print(f"{self} attacked {target} for {damage:.2f} damage.")
 
 class Combat:
     def __init__(self, my_char, monsters):
@@ -39,28 +30,38 @@ class Combat:
 
     def simulate(self):
         ans = []
-        for monster in self.monsters:
-            while self.my_char.health > 0 and monster.health > 0:
-                damage = self.my_char.strength
-                monster.health -= damage
-                ans += ["{} used normal attack and caused".format(self.my_char.name)]
-                ans += ["{} damage.{}'s health is now {}".format(damage,monster.name, monster.health)]
-
-                # monster attacks my_char
+        while self.my_char.health > 0 and any(monster.health > 0 for monster in self.monsters):
+            for monster in self.monsters:
+                if monster.health <= 0:
+                    continue
                 damage = monster.strength
                 self.my_char.health -= damage
-                ans += ["Monster attacked my character and caused"] 
-                ans += ["{} damage, {}s health is now {}".format(damage, self.my_char.name, self.my_char.health)]
+                ans += ["{} attacked {} and caused {} damage. {}'s health is now {}".format(
+                    monster.name, self.my_char.name, damage, self.my_char.name, self.my_char.health
+                )]
 
-            if self.my_char.health > 0:
-                ans += ["My {} won the combat with this {}!".format(self.my_char.name,monster.name)]
-            else:
-                ans += ["Monster won the combat."]
+            # my_char attacks a random monster
+            alive_monsters = [monster for monster in self.monsters if monster.health > 0]
+            if alive_monsters:
+                target = random.choice(alive_monsters)
+                damage = self.my_char.strength
+                target.health -= damage
+                ans += ["{} used normal attack and caused {} damage to {}. {}'s health is now {}".format(
+                    self.my_char.name, damage, target.name, target.name, target.health
+                )]
+                if target.health<=0:
+                    ans+=["{} 은 쓰러졌다.".format(target.name)]
+
+        if self.my_char.health > 0:
+            ans += ["My {} won the combat!".format(self.my_char.name)]
+        else:
+            ans += ["Monster(s) won the combat."]
 
         return ans
 
-player = my_character("돌돌이", {'health': 100, 'strength': 10, 'dexterity': 10, 'intelligence': 10, 'drunk': False})
-monsters = [monster("몬스터1", {'health': 75, 'strength': 8, 'dexterity': 8, 'intelligence': 8, 'exp': 10}),
+
+player = my_character("돌돌이", {'health': 100, 'strength': 12, 'dexterity': 10, 'intelligence': 10, 'drunk': False})
+monsters = [monster("몬스터1", {'health': 20, 'strength': 8, 'dexterity': 8, 'intelligence': 8, 'exp': 10}),
             monster("몬스터2", {'health': 50, 'strength': 5, 'dexterity': 5, 'intelligence': 5, 'exp': 5})]
 
 
