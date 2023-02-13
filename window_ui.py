@@ -86,6 +86,7 @@ class Image_button():
         self.image_rect = image.get_rect(topleft=(x, y))
         self.rect = self.image.get_rect(topleft=(x, y))
     def blit(self):
-        self.screen.blit(self.image, self.rect)
+        self.screen.blit(self.image)
     def collidepoint(self, point):
         return self.image_rect.collidepoint(point)
+
