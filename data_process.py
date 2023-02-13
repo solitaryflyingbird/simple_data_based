@@ -35,7 +35,6 @@ def load_npcs(folder_name):
     for filename in os.listdir(folder_name):
         if filename.endswith('.json'):
             with open(os.path.join(folder_name, filename), "r") as file:
-                print(filename)
                 npc_data = json.load(file)
                 NPC_DATA[npc_data["name"]] = npc_data
 def load_items(folder_name):
@@ -49,16 +48,4 @@ def load_items(folder_name):
 load_npcs("NPC")
 load_items("ITEM")
 
-
-##테스트 코드
-x = ITEM_DATA["item1"]
-
-inventory.add_item(ITEM_DATA["item1"]["name"], 1)
-
-inventory.add_item(ITEM_DATA["item1"], 2)
-
-inventory.remove_item("item1", 1)
-inventory.remove_item(ITEM_DATA["item1"]["name"], 1)
-
-print(DATA["inventory"].data)
 

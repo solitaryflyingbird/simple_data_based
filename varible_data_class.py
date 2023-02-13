@@ -16,6 +16,12 @@ class Status():
             "intelligence": 10,
             "drunk" : 0
         }
+        self.skill_data=[ {
+                "name" : "달빛배기",
+                "damage_up" : 'intelligence',
+                "chance" : 20
+            }
+        ]
 
     def status_update(self, attribute: str, value: int):
         self.data[attribute] += value
