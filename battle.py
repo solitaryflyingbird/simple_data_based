@@ -29,14 +29,16 @@ class Combat:
         self.monsters = monsters
 
     def simulate(self):
-        ans = []
+        battle_log = []
+        battle_result = 1
         while self.my_char.health > 0 and any(monster.health > 0 for monster in self.monsters):
+            #monster_attack
             for monster in self.monsters:
                 if monster.health <= 0:
                     continue
                 damage = monster.strength
                 self.my_char.health -= damage
-                ans += ["{} attacked {} and caused {} damage. {}'s health is now {}".format(
+                battle_log += ["{}은(는) 공격했다. {}가 받은 데미지는 {}. {}의 남은 체력은 {}이다.".format(
                     monster.name, self.my_char.name, damage, self.my_char.name, self.my_char.health
                 )]
 
@@ -46,18 +48,19 @@ class Combat:
                 target = random.choice(alive_monsters)
                 damage = self.my_char.strength
                 target.health -= damage
-                ans += ["{} used normal attack and caused {} damage to {}. {}'s health is now {}".format(
-                    self.my_char.name, damage, target.name, target.name, target.health
+                battle_log += ["{}은(는) 공격했다 {}가 받은 데미지는 {}. {}의 남은 체력은 {}이다.".format(
+                    self.my_char.name, target.name, damage,  target.name, target.health
                 )]
                 if target.health<=0:
-                    ans+=["{} 은 쓰러졌다.".format(target.name)]
+                    battle_log+=["{} 은 쓰러졌다.".format(target.name)]
 
         if self.my_char.health > 0:
-            ans += ["My {} won the combat!".format(self.my_char.name)]
+            battle_log += ["{} 는 전투에서 이겼다!".format(self.my_char.name)]
+            battle_result = 1
         else:
-            ans += ["Monster(s) won the combat."]
-
-        return ans
+            battle_log += ["{} 는 전투에서 패배했다!".format(self.my_char.name)]
+            battle_result = 0
+        return (battle_log)
 
 
 player = my_character("돌돌이", {'health': 100, 'strength': 12, 'dexterity': 10, 'intelligence': 10, 'drunk': False})
