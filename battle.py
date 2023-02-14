@@ -1,10 +1,7 @@
 import data_process
 import random
 
-load_status = data_process.status.data
-skill_data = data_process.status.skill_data
 
-print(load_status)
 
 class my_character:
     def __init__(self, name, my_status, skill_data = None):
@@ -89,17 +86,20 @@ class Combat:
         else:
             battle_log.append("{} 은(는) 전투에서 패배했다!".format(self.my_char.name))
             battle_result = 0
-
         return (battle_log, battle_result)
 
 
-player = my_character("돌돌이", {'health': 100, 'strength': 12, 'dexterity': 10, 'intelligence': 15, 'drunk': 10}, skill_data)
-monsters = [monster("몬스터1", {'health': 210, 'strength': 8, 'dexterity': 8, 'intelligence': 8, 'exp': 10}),
+def run_combat(monster_list):
+    player = my_character(data_process.name.name, data_process.status.data, data_process.status.skill_data)
+    monsters = monster_list
+    cc = Combat(player, monsters)
+    return cc.simulate()
+
+
+monsters_arr_test = [monster("몬스터1", {'health': 210, 'strength': 8, 'dexterity': 8, 'intelligence': 8, 'exp': 10}),
             monster("몬스터2", {'health': 50, 'strength': 5, 'dexterity': 5, 'intelligence': 5, 'exp': 5})]
 
-
-cc = Combat(player, monsters)
-xx = cc.simulate()
+xx = run_combat(monsters_arr_test)
 
 for i in xx[0]:
     print(i)

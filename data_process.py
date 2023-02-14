@@ -11,10 +11,9 @@ quest_progress = varible_data_class.QuestProgress()
 gold = varible_data_class.GOLD()
 gold.gold = 20
 day = varible_data_class.DAY()
-name = varible_data_class.NAME()
+name = varible_data_class.Name()
 
-DATA = {"status" : status, "location" : location, "inventory" : inventory, "quest_progress" : quest_progress, "gold" : gold ,"name" : name, "day" : day}
-
+DATA = {"status" : status, "location" : location, "inventory" : inventory, "quest_progress" : quest_progress, "gold" : gold ,"name" : name, "day" : day, "name" : name}
 NPC_DATA  = {}
 ITEM_DATA = {}
 

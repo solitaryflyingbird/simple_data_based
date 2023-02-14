@@ -4,6 +4,9 @@ import json
 #Inventory
 #QuestProgress
 
+class Name():
+    def __init__(self, name = None):
+        self.name = name.copy() if name is not None else "들실장"
 
 class Status():
     def __init__(self):
@@ -111,9 +114,7 @@ class GOLD:
 class DAY:
     def __init__(self, gold = 0):
         self.day=1
-class NAME:
-    def __init__(self, gold = 0):
-        self.name="name"
+
 """
 i = Inventory()
 i.add_item("x",1)

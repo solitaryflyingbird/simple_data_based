@@ -21,3 +21,4 @@ class random_monster_pick:
     def random_pick(self, dictionary):
         x = random.choice(list(dictionary))
         return dictionary[x]
+

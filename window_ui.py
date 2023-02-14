@@ -24,8 +24,6 @@ class Window:
 
 
 
-
-
 class Text_Window:
     def __init__(self, x, y, width, height, string, font_path, font_size, color,screen, bg_color=(255, 255, 255)):
         self.screen = screen
