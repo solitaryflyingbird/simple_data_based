@@ -1,14 +1,14 @@
 import pygame as pg
 
 class Window:
-    def __init__(self, x=0, y=0, width=None, height=None, buttons=[], text_windows=[], images=[]):
+    def __init__(self, x=0, y=0, width=None, height=None, buttons=None, text_windows=None, images=None):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
-        self.buttons = buttons
-        self.text_windows = text_windows
-        self.images = images
+        self.buttons = buttons.copy() if buttons is not None else []
+        self.text_windows = text_windows.copy() if text_windows is not None else []
+        self.images = images.copy() if images is not None else []
     def blit(self):
         for text_window in self.text_windows:
             text_window.blit()
@@ -86,7 +86,7 @@ class Image_button():
         self.image_rect = image.get_rect(topleft=(x, y))
         self.rect = self.image.get_rect(topleft=(x, y))
     def blit(self):
-        self.screen.blit(self.image)
+        self.screen.blit(self.image, self.image_rect)
     def collidepoint(self, point):
         return self.image_rect.collidepoint(point)
 

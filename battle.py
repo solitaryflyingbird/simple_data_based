@@ -4,6 +4,8 @@ import random
 load_status = data_process.status.data
 skill_data = data_process.status.skill_data
 
+print(load_status)
+
 class my_character:
     def __init__(self, name, my_status, skill_data = None):
         self.name = name

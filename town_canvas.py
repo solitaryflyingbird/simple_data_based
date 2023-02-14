@@ -110,11 +110,12 @@ guild_b1 = Image_button(tobul, 400, 150, screen)
 guild_b2 = Image_button(tobul, 400, 250, screen)
 
 GUILD_WINDOW.buttons.append(guild_b1)
+print(STATUS_WINDOW.buttons)
 GUILD_WINDOW.buttons.append(guild_b2)
 
 
 
-
+print(STATUS_WINDOW.buttons == GUILD_WINDOW.buttons)
 
 
 b1_function = create_open_function(STATUS_WINDOW)
