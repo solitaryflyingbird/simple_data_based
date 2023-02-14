@@ -65,8 +65,8 @@ class Combat:
                 battle_log.append(log)
                 if self.my_char.health <= 0:
                     battle_log.append("{} 은(는) 쓰러졌다.".format(self.my_char.name))
-            
-            if self.my_char.health <= 0 or any(monster.health <= 0 for monster in self.monsters):
+            print(any(monster.health <= 0 for monster in self.monsters))
+            if self.my_char.health <= 0 or all(monster.health <= 0 for monster in self.monsters):
                 break
             # my_char attacks a random monster
             alive_monsters = [monster for monster in self.monsters if monster.health > 0]
@@ -77,7 +77,7 @@ class Combat:
                 battle_log.append(log)
                 if target.health <= 0:
                     battle_log.append("{} 은(는) 쓰러졌다.".format(target.name))
-            if self.my_char.health <= 0 or any(monster.health <= 0 for monster in self.monsters):
+            if self.my_char.health <= 0 or all(monster.health <= 0 for monster in self.monsters):
                 break
 
         if self.my_char.health > 0:
@@ -92,14 +92,15 @@ class Combat:
 def run_combat(monster_list):
     player = my_character(data_process.name.name, data_process.status.data, data_process.status.skill_data)
     monsters = monster_list
-    cc = Combat(player, monsters)
-    return cc.simulate()
+    combat_sim = Combat(player, monsters)
+    return combat_sim.simulate()
 
 
-monsters_arr_test = [monster("몬스터1", {'health': 210, 'strength': 8, 'dexterity': 8, 'intelligence': 8, 'exp': 10}),
+monsters_arr_test = [monster("몬스터1", {'health': 50, 'strength': 5, 'dexterity': 8, 'intelligence': 8, 'exp': 10}),
             monster("몬스터2", {'health': 50, 'strength': 5, 'dexterity': 5, 'intelligence': 5, 'exp': 5})]
 
 xx = run_combat(monsters_arr_test)
+data_process.name.name = "집실장"
 
 for i in xx[0]:
     print(i)
