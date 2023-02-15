@@ -1,7 +1,8 @@
 import pygame as pg
 import data_process
 import window_ui
-import function_maker
+import battle
+
 
 pg.init()
 
@@ -37,7 +38,6 @@ def create_open_function(win):
             OPEND_WINDOW = [win]
     return open_function
 ##데이터 변경 함수 제작 함수
-
 def make_change_function_gold(change_num):
     def change_function():
         data_process.gold.gold += change_num
@@ -53,15 +53,11 @@ def make_change_function_status(attribute, change_num):
         status_text_win_b1.string = "\n".join([f"{key}: {value}" for key, value in data_process.status.data.items()])
         beer_point.string = "취기 : " + str(data_process.status.data["drunk"])
     return change_function
-
 def merge_functions(*functions):
     def merged_function(*args, **kwargs):
         for func in functions:
             func(*args, **kwargs)
     return merged_function
-
-
-
 
 
 
@@ -96,19 +92,34 @@ GUILD_WINDOW = Window()
 guild_text = Text_Window(400, 300, 300, 130, "이곳은 길드다\n원하는 임무를 클릭해보자.", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
 GUILD_WINDOW.text_windows = [guild_text]
 import quest_maker
-random_quest_1 = quest_maker.random_monster_pick('./MONSTER/D')
-random_quest_2 = quest_maker.random_monster_pick('./MONSTER/D')
+def quest_load():
+    rd1 = quest_maker.random_monster_pick('./MONSTER/D')
+    rd2 = quest_maker.random_monster_pick('./MONSTER/D')
+    print(rd1)
+    return rd1, rd2
+def battle_click_function_maker(quest):
+    def battle_function():
+        my_char = battle.my_character(data_process.name.name, data_process.status.data, data_process.status.skill_data)
+        monsters = battle.make_monsters(quest.monster_name, quest.status, quest.monster_num)
+        print(monsters[0].strength, 11111)
+        xx= battle.Combat(my_char,monsters,quest.gold_reward)
+        xx.simulate()
+        result = xx.battle_result
+        print(result)
+        return result
+    return battle_function
 
 
+random_quest_1, random_quest_2 = quest_load()
 random_quest_window_button_1 = Text_Window(400, 100, 300, 50, random_quest_1.quest_name, "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
 random_quest_window_button_2 = Text_Window(400, 200, 300, 50, random_quest_2.quest_name, "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
-
 GUILD_WINDOW.text_windows.append(random_quest_window_button_1)
 GUILD_WINDOW.text_windows.append(random_quest_window_button_2)
 
-guild_b1 = Image_button(tobul, 400, 150, screen)
-guild_b2 = Image_button(tobul, 400, 250, screen)
+guild_b1_function = battle_click_function_maker(random_quest_1)
 
+guild_b1 = Image_button(tobul, 400, 150, screen, guild_b1_function)
+guild_b2 = Image_button(tobul, 400, 250, screen,)
 GUILD_WINDOW.buttons.append(guild_b1)
 print(STATUS_WINDOW.buttons)
 GUILD_WINDOW.buttons.append(guild_b2)
@@ -135,10 +146,6 @@ TOWN_WINDOW.text_windows = [town_text, gold_box]
 TOWN_WINDOW.images = [sojo_image]
 
 
-
-
-
-
 running = True
 while running:
     screen.blit(town_back, (0,0))
@@ -158,10 +165,6 @@ while running:
                     pressed.callback()
         if event.type == pg.QUIT:
             running = False
-
-    
     pg.display.update()
-    
     clock.tick(20)
-
 pg.quit()

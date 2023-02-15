@@ -7,10 +7,12 @@ class random_monster_pick:
         self.folder_path = folder_path
         monsters_dict = self.json_to_dict(self.folder_path)
         pick = self.random_pick(monsters_dict)
+        self.status = pick['status']
         self.monster_name = pick["name"]
         self.monster_num = random.randint(1,4)
-        self.reward = pick["status"]["rank"]*10 + (pick["status"]["rank"]*3 *self.monster_num)
-        self.quest_name = "%s %d 마리 퇴치 \n보상 %d 골드" % (self.monster_name, self.monster_num, self.reward)
+        self.gold_reward = pick["status"]["rank"]*10 + (pick["status"]["rank"]*3 *self.monster_num)
+        self.quest_name = "%s %d 마리 퇴치 \n보상 %d 골드" % (self.monster_name, self.monster_num, self.gold_reward)
+
     def json_to_dict(self, folder_path):
         result = {}
         for filename in os.listdir(folder_path):
@@ -21,4 +23,6 @@ class random_monster_pick:
     def random_pick(self, dictionary):
         x = random.choice(list(dictionary))
         return dictionary[x]
+
+
 

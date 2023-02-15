@@ -25,11 +25,16 @@ class monster:
 
 
 class Combat:
-    def __init__(self, my_char, monsters):
+    def __init__(self, my_char, monsters, reward_gold):
         self.my_char = my_char
         self.monsters = monsters
+        sum_exp_f = lambda list_of_instances: sum(item.exp for item in list_of_instances)
+        self.reward_exp = sum_exp_f(monsters)
+        self.reward_gold = reward_gold
+        self.battle_result = None
     def battle_system(self, attacker, defender):
         skill_list = attacker.skill_list
+        print(defender,defender.name, defender.dexterity, "d")
         avoid_chance = min(5, attacker.dexterity - defender.dexterity + 5)
         if random.randint(1, 100) < avoid_chance:
             battle_log = "{}은(는) 공격을 피했다".format(defender.name)
@@ -65,7 +70,6 @@ class Combat:
                 battle_log.append(log)
                 if self.my_char.health <= 0:
                     battle_log.append("{} 은(는) 쓰러졌다.".format(self.my_char.name))
-            print(any(monster.health <= 0 for monster in self.monsters))
             if self.my_char.health <= 0 or all(monster.health <= 0 for monster in self.monsters):
                 break
             # my_char attacks a random monster
@@ -86,21 +90,35 @@ class Combat:
         else:
             battle_log.append("{} 은(는) 전투에서 패배했다!".format(self.my_char.name))
             battle_result = 0
+        self.battle_result = battle_result
         return (battle_log, battle_result)
 
+    def return_result(self):
+        if self.battle_result == 1:
+            return self.reward_gold, self.reward_exp
+        if self.battle_result == 0:
+            return "죽었다"
+def make_monsters(name, status, num):
+    monsters_arr = []
+    for _ in range(num):
+        monsters_arr.append(monster(name, status))
+        print(monsters_arr[0].dexterity)
+    return monsters_arr
 
-def run_combat(monster_list):
-    player = my_character(data_process.name.name, data_process.status.data, data_process.status.skill_data)
-    monsters = monster_list
-    combat_sim = Combat(player, monsters)
-    return combat_sim.simulate()
 
 
-monsters_arr_test = [monster("몬스터1", {'health': 50, 'strength': 5, 'dexterity': 8, 'intelligence': 8, 'exp': 10}),
+"""
+monsters_arr_test = [monster("몬스터1", {'health': 250, 'strength': 5, 'dexterity': 8, 'intelligence': 8, 'exp': 10}),
             monster("몬스터2", {'health': 50, 'strength': 5, 'dexterity': 5, 'intelligence': 5, 'exp': 5})]
 
-xx = run_combat(monsters_arr_test)
-data_process.name.name = "집실장"
+
+player = my_character(data_process.name.name, data_process.status.data, data_process.status.skill_data)
+
+ccc = Combat(player, monsters_arr_test, 10)
+xx = ccc.simulate()
 
 for i in xx[0]:
     print(i)
+
+print(ccc.return_result())
+"""
