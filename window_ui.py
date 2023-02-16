@@ -46,7 +46,9 @@ class Text_Window:
             line_surface = font.render(line, True, self.color)
             line_rect = line_surface.get_rect(topleft=(self.x, self.y + y_offset))
             self.screen.blit(line_surface, line_rect)
-            y_offset += self.font_size    
+            y_offset += self.font_size  
+    def load(self, string):
+        self.string = string
 
 class Image():
     def __init__(self, image, x, y, screen):

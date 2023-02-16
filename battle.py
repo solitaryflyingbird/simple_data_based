@@ -34,7 +34,6 @@ class Combat:
         self.battle_result = None
     def battle_system(self, attacker, defender):
         skill_list = attacker.skill_list
-        print(defender,defender.name, defender.dexterity, "d")
         avoid_chance = min(5, attacker.dexterity - defender.dexterity + 5)
         if random.randint(1, 100) < avoid_chance:
             battle_log = "{}은(는) 공격을 피했다".format(defender.name)
@@ -102,7 +101,6 @@ def make_monsters(name, status, num):
     monsters_arr = []
     for _ in range(num):
         monsters_arr.append(monster(name, status))
-        print(monsters_arr[0].dexterity)
     return monsters_arr
 
 

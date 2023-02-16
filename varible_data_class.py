@@ -13,7 +13,7 @@ class Status():
         self.data = {
             "level": 1,
             "exp": 0,
-            "health": 100,
+            "health": 400,
             "strength": 10,
             "dexterity": 10,
             "intelligence": 10,

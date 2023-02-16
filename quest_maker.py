@@ -25,4 +25,15 @@ class random_monster_pick:
         return dictionary[x]
 
 
+class quest_manager:
+    def __init__(self, folder_path):
+        self.folder_path = folder_path
+        self.quest1 = random_monster_pick(folder_path)
+        self.quest2 = random_monster_pick(folder_path)
+
+    def quest_load(self):
+        self.quest1 = random_monster_pick(self.folder_path)
+        self.quest2 = random_monster_pick(self.folder_path)
+
+xx= quest_manager('./MONSTER/D')
 
