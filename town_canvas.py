@@ -100,12 +100,16 @@ def battle_click_function_maker(quest, quest_manager, random_quest_window_button
         xx= battle.Combat(my_char,monsters,quest.gold_reward)
         xx.simulate()
         result = xx.return_result()
-        quest_manager.quest_load()
-        random_quest_window_button_1.load(quest_manager.quest1.quest_name)
-        random_quest_window_button_2.load(quest_manager.quest2.quest_name)
-        print(result)
-        print(quest_manager.quest1.quest_name)
-        return result
+        if result== 0:
+            print(0)
+        else:
+            quest_manager.quest_load()
+            random_quest_window_button_1.load(quest_manager.quest1.quest_name)
+            random_quest_window_button_2.load(quest_manager.quest2.quest_name)
+            data_process.gold.gold += result[0]
+            TOWN_WINDOW.text_windows[1] = Text_Window(650, 20, 200, 50, str(data_process.gold.gold)+" 골드", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
+            print(result)
+            return result
     return battle_function
 
 
