@@ -93,8 +93,12 @@ guild_text = Text_Window(400, 300, 300, 130, "이곳은 길드다\n원하는 임
 GUILD_WINDOW.text_windows = [guild_text]
 import quest_maker
 
-def battle_click_function_maker(quest, quest_manager, random_quest_window_button_1, random_quest_window_button_2):
+def battle_click_function_maker(quest_num, quest_manager, random_quest_window_button_1, random_quest_window_button_2):
     def battle_function():
+        if quest_num==1:
+            quest = quest_manager.quest1
+        else:
+            quest = quest_manager.quest2
         my_char = battle.my_character(data_process.name.name, data_process.status.data, data_process.status.skill_data)
         monsters = battle.make_monsters(quest.monster_name, quest.status, quest.monster_num)
         xx= battle.Combat(my_char,monsters,quest.gold_reward)
@@ -106,6 +110,8 @@ def battle_click_function_maker(quest, quest_manager, random_quest_window_button
             quest_manager.quest_load()
             random_quest_window_button_1.load(quest_manager.quest1.quest_name)
             random_quest_window_button_2.load(quest_manager.quest2.quest_name)
+            quest1 = quest_manager.quest1
+            quest2 = quest_manager.quest2
             data_process.gold.gold += result[0]
             TOWN_WINDOW.text_windows[1] = Text_Window(650, 20, 200, 50, str(data_process.gold.gold)+" 골드", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
             print(result)
@@ -120,8 +126,8 @@ random_quest_window_button_2 = Text_Window(400, 200, 300, 50, quest_manager.ques
 GUILD_WINDOW.text_windows.append(random_quest_window_button_1)
 GUILD_WINDOW.text_windows.append(random_quest_window_button_2)
 
-guild_b1_function = battle_click_function_maker(quest_manager.quest1, quest_manager, random_quest_window_button_1, random_quest_window_button_2)
-guild_b2_function = battle_click_function_maker(quest_manager.quest2, quest_manager, random_quest_window_button_1, random_quest_window_button_2)
+guild_b1_function = battle_click_function_maker(1, quest_manager, random_quest_window_button_1, random_quest_window_button_2)
+guild_b2_function = battle_click_function_maker(2, quest_manager, random_quest_window_button_1, random_quest_window_button_2)
 
 guild_b1 = Image_button(tobul, 400, 150, screen, guild_b1_function)
 guild_b2 = Image_button(tobul, 400, 250, screen, guild_b2_function)

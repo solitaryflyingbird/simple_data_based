@@ -76,6 +76,8 @@ class Button:
         self.screen.blit(self.write, self.text_rect.topleft)
     def collidepoint(self, point):
         return self.wood_board_rect.collidepoint(point)
+    def func_load(self, callback):
+        self.callback = callback
 
 
 class Image_button():
@@ -89,4 +91,6 @@ class Image_button():
         self.screen.blit(self.image, self.image_rect)
     def collidepoint(self, point):
         return self.image_rect.collidepoint(point)
+    def func_load(self, callback):
+        self.callback = callback
 
