@@ -114,7 +114,10 @@ def battle_click_function_maker(quest_num, quest_manager, random_quest_window_bu
             quest2 = quest_manager.quest2
             data_process.gold.gold += result[0]
             TOWN_WINDOW.text_windows[1] = Text_Window(650, 20, 200, 50, str(data_process.gold.gold)+" 골드", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
+            data_process.status.status_update("exp", result[1])
             print(result)
+            print(data_process.status.data)
+            print(STATUS_WINDOW.text_windows)
             return result
     return battle_function
 
@@ -139,15 +142,19 @@ GUILD_WINDOW.buttons.append(guild_b2)
 
 print(STATUS_WINDOW.buttons == GUILD_WINDOW.buttons)
 
+def update_status():
+    status_text = "\n".join([f"{key}: {value}" for key, value in data_process.status.data.items()])
+    STATUS_WINDOW.text_windows = [Text_Window(400, 200, 300, 140, status_text, "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))]
+    print(data_process.status.data)
 
-b1_function = create_open_function(STATUS_WINDOW)
+b1_function = merge_functions(create_open_function(STATUS_WINDOW), update_status)
 b2_function = create_open_function(BEER_WINDOW)
 b4_function = create_open_function(GUILD_WINDOW)
 ##타운 기본 윈도우
 TOWN_WINDOW = Window()
 town_b1 = Button(20, 50, "스테이터스를 보다", wood_board, screen,b1_function)
 town_b2 = Button(20, 110, "술집에 가다", wood_board, screen, b2_function)
-town_b3 = Button(20, 170, "상점에 가다", wood_board, screen)
+town_b3 = Button(20, 170, "상점에 가다", wood_board, screen, )
 town_b4 = Button(20, 230, "길드에 가다", wood_board, screen, b4_function)
 TOWN_WINDOW.buttons = [town_b1,town_b2,town_b3,town_b4]
 town_text = Text_Window(20, 300, 300, 170, "마을이다 ㅇㅅㅇ.\n마을이라구 ㅇㅅㅇ.", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
