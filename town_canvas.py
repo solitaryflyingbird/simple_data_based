@@ -17,7 +17,7 @@ wood_board = pg.image.load("IMAGE/wood_board.png")
 sojo = pg.image.load("IMAGE/sojo.png")
 beer = pg.image.load("IMAGE/beer.png")
 tobul = pg.image.load("IMAGE/tobul.png")
-
+gangsin = pg.image.load("IMAGE/gangsin.png")
 
 Window = window_ui.Window
 Button = window_ui.Button
@@ -120,7 +120,14 @@ def battle_click_function_maker(quest_num, quest_manager, random_quest_window_bu
             print(STATUS_WINDOW.text_windows)
             return result
     return battle_function
-
+def make_renew(quest_manager, random_quest_window_button_1, random_quest_window_button_2):
+    def renew():
+        quest_manager.quest_load()
+        random_quest_window_button_1.load(quest_manager.quest1.quest_name)
+        random_quest_window_button_2.load(quest_manager.quest2.quest_name)
+        quest1 = quest_manager.quest1
+        quest2 = quest_manager.quest2
+    return renew
 
 
 quest_manager = quest_maker.quest_manager('./MONSTER/D')
@@ -131,12 +138,13 @@ GUILD_WINDOW.text_windows.append(random_quest_window_button_2)
 
 guild_b1_function = battle_click_function_maker(1, quest_manager, random_quest_window_button_1, random_quest_window_button_2)
 guild_b2_function = battle_click_function_maker(2, quest_manager, random_quest_window_button_1, random_quest_window_button_2)
-
+guild_b3_function = make_renew(quest_manager, random_quest_window_button_1, random_quest_window_button_2)
 guild_b1 = Image_button(tobul, 400, 150, screen, guild_b1_function)
 guild_b2 = Image_button(tobul, 400, 250, screen, guild_b2_function)
+guild_b3 = Image_button(gangsin, 400, 420, screen, guild_b3_function)
 GUILD_WINDOW.buttons.append(guild_b1)
-print(STATUS_WINDOW.buttons)
 GUILD_WINDOW.buttons.append(guild_b2)
+GUILD_WINDOW.buttons.append(guild_b3)
 
 
 
