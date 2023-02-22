@@ -32,6 +32,8 @@ OPEND_WINDOW = []
 def create_open_function(win):
     def open_function():
         global OPEND_WINDOW
+        for ow in OPEND_WINDOW:
+            ow.text_window_reset()
         if OPEND_WINDOW and OPEND_WINDOW[0] == win:
             OPEND_WINDOW = []
         else:
@@ -70,7 +72,7 @@ STATUS_WINDOW.text_windows = [status_text_win_b1]
 
 
 ##술집 윈도우
-status_text_win_b2 = Text_Window(400, 300, 300, 130, "이곳은 술집이다\n어차피 모험가의 삶은 하루살이\n마음껏 마시자.", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
+status_text_win_b2 = Text_Window(400, 300, 300, 130, "이곳은 술집이다\n어차피 모험가의 삶은 하루살이\n마음껏 마시자.", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0), True)
 beer_point = Text_Window(460, 270, 130, 25, "취기 : " + str(data_process.status.data["drunk"]), "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
 BEER_WINDOW = Window()
 BEER_WINDOW.text_windows = [status_text_win_b2,beer_point]
@@ -89,7 +91,7 @@ BEER_WINDOW.buttons=[beer_button]
 
 #길드 윈도우
 GUILD_WINDOW = Window()
-guild_text = Text_Window(400, 300, 300, 130, "이곳은 길드다\n원하는 임무를 클릭해보자.", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
+guild_text = Text_Window(400, 300, 300, 130, "이곳은 길드다\n원하는 임무를 클릭해보자.", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0), True)
 GUILD_WINDOW.text_windows = [guild_text]
 import quest_maker
 
@@ -122,11 +124,16 @@ def battle_click_function_maker(quest_num, quest_manager, random_quest_window_bu
     return battle_function
 def make_renew(quest_manager, random_quest_window_button_1, random_quest_window_button_2):
     def renew():
-        quest_manager.quest_load()
-        random_quest_window_button_1.load(quest_manager.quest1.quest_name)
-        random_quest_window_button_2.load(quest_manager.quest2.quest_name)
-        quest1 = quest_manager.quest1
-        quest2 = quest_manager.quest2
+        if data_process.gold.gold>0:
+            quest_manager.quest_load()
+            random_quest_window_button_1.load(quest_manager.quest1.quest_name)
+            random_quest_window_button_2.load(quest_manager.quest2.quest_name)
+            quest1 = quest_manager.quest1
+            quest2 = quest_manager.quest2
+            data_process.gold.gold-=1
+            TOWN_WINDOW.text_windows[1] = Text_Window(650, 20, 200, 50, str(data_process.gold.gold)+" 골드", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
+        else:
+            GUILD_WINDOW.text_windows[0].string= "돈이 부족하다."
     return renew
 
 

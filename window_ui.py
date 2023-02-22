@@ -21,13 +21,20 @@ class Window:
             button_click = button.collidepoint(mouse_pos)
             if button_click:
                 return button
+    def text_window_reset(self):
+        for tw in self.text_windows:
+            if tw.reset == True:
+                tw.string = tw.origin_string
+
 
 
 
 class Text_Window:
-    def __init__(self, x, y, width, height, string, font_path, font_size, color,screen, bg_color=(255, 255, 255)):
+    def __init__(self, x, y, width, height, string, font_path, font_size, color,screen, bg_color=(255, 255, 255), reset = False):
+        self.reset = reset
         self.screen = screen
-        self.string = string
+        self.origin_string = string
+        self.string = self.origin_string
         self.font_path = font_path
         self.font_size = font_size
         self.color = color

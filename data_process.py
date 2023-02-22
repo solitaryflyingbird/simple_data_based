@@ -9,7 +9,7 @@ location = varible_data_class.Location()
 inventory = varible_data_class.Inventory()
 quest_progress = varible_data_class.QuestProgress()
 gold = varible_data_class.GOLD()
-gold.gold = 20
+gold.gold = 5
 day = varible_data_class.DAY()
 name = varible_data_class.Name()
 
