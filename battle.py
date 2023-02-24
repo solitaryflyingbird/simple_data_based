@@ -97,6 +97,12 @@ class Combat:
             return self.reward_gold, self.reward_exp
         if self.battle_result == 0:
             return "죽었다"
+    def calculate_win_probability(self):
+        win_count = 0
+        for i in range(100):
+            _, result = self.simulate()
+            win_count += result
+        return win_count
 def make_monsters(name, status, num):
     monsters_arr = []
     for _ in range(num):

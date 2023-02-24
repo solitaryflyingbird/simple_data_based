@@ -18,6 +18,7 @@ sojo = pg.image.load("IMAGE/sojo.png")
 beer = pg.image.load("IMAGE/beer.png")
 tobul = pg.image.load("IMAGE/tobul.png")
 gangsin = pg.image.load("IMAGE/gangsin.png")
+battle_rate = pg.image.load("IMAGE/battle_rate.png")
 
 Window = window_ui.Window
 Button = window_ui.Button
@@ -105,16 +106,20 @@ def battle_click_function_maker(quest_num, quest_manager, random_quest_window_bu
         monsters = battle.make_monsters(quest.monster_name, quest.status, quest.monster_num)
         xx= battle.Combat(my_char,monsters,quest.gold_reward)
         xx.simulate()
+        print(xx.calculate_win_probability())
         result = xx.return_result()
-        if result== 0:
-            print(0)
+        if result[0]== "죽":
+            print("죽음")
         else:
             quest_manager.quest_load()
             random_quest_window_button_1.load(quest_manager.quest1.quest_name)
             random_quest_window_button_2.load(quest_manager.quest2.quest_name)
             quest1 = quest_manager.quest1
             quest2 = quest_manager.quest2
+
+            print(type(data_process.gold.gold))
             data_process.gold.gold += result[0]
+            
             TOWN_WINDOW.text_windows[1] = Text_Window(650, 20, 200, 50, str(data_process.gold.gold)+" 골드", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
             data_process.status.status_update("exp", result[1])
             print(result)
@@ -135,6 +140,24 @@ def make_renew(quest_manager, random_quest_window_button_1, random_quest_window_
         else:
             GUILD_WINDOW.text_windows[0].string= "돈이 부족하다."
     return renew
+def make_battle_rate(quest_manager):
+    def rate_fun():
+        if data_process.gold.gold>0:
+            my_char = battle.my_character(data_process.name.name, data_process.status.data, data_process.status.skill_data)
+            quest1 = quest_manager.quest1
+            monsters = battle.make_monsters(quest1.monster_name, quest1.status, quest1.monster_num)
+            battle1= battle.Combat(my_char,monsters,1)
+            quest1_rate = battle1.calculate_win_probability()
+            quest2 = quest_manager.quest2
+            monsters = battle.make_monsters(quest2.monster_name, quest2.status, quest2.monster_num)
+            battle2= battle.Combat(my_char,monsters,1)
+            quest2_rate = battle2.calculate_win_probability()
+            GUILD_WINDOW.text_windows[0].string= "각각 {0}%, {1}%의 \n승리확률이다.".format(quest1_rate, quest2_rate)
+            data_process.gold.gold-=1
+            TOWN_WINDOW.text_windows[1] = Text_Window(650, 20, 200, 50, str(data_process.gold.gold)+" 골드", "font/NanumGothicBold.otf", 20, (255, 225, 225),screen, (0, 0, 0))
+        else:
+            GUILD_WINDOW.text_windows[0].string= "돈이 부족하다."
+    return rate_fun
 
 
 quest_manager = quest_maker.quest_manager('./MONSTER/D')
@@ -146,13 +169,15 @@ GUILD_WINDOW.text_windows.append(random_quest_window_button_2)
 guild_b1_function = battle_click_function_maker(1, quest_manager, random_quest_window_button_1, random_quest_window_button_2)
 guild_b2_function = battle_click_function_maker(2, quest_manager, random_quest_window_button_1, random_quest_window_button_2)
 guild_b3_function = make_renew(quest_manager, random_quest_window_button_1, random_quest_window_button_2)
+guild_b4_function = make_battle_rate(quest_manager)
 guild_b1 = Image_button(tobul, 400, 150, screen, guild_b1_function)
 guild_b2 = Image_button(tobul, 400, 250, screen, guild_b2_function)
 guild_b3 = Image_button(gangsin, 400, 420, screen, guild_b3_function)
+guild_b4 = Image_button(battle_rate, 550, 420, screen, guild_b4_function)
 GUILD_WINDOW.buttons.append(guild_b1)
 GUILD_WINDOW.buttons.append(guild_b2)
 GUILD_WINDOW.buttons.append(guild_b3)
-
+GUILD_WINDOW.buttons.append(guild_b4)
 
 
 print(STATUS_WINDOW.buttons == GUILD_WINDOW.buttons)
